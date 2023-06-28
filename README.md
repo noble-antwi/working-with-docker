@@ -8,4 +8,10 @@ In my quest to learn DevOps, I have been exploring Docker, a powerful tool for c
 ## Project Setup
 To begin, I utilized a project spearheaded by [Nana Janashia](https://www.linkedin.com/in/nana-janashia/?originalSubdomain=at) available on [GitLab](https://gitlab.com/nanuchi/developing-with-docker). The project showcases a simple user profile app built with pure JavaScript, CSS styles, a Node.js backend using the Express module, and MongoDB for data storage. The entire application is container-based, ensuring consistency and ease of deployment.
 
+## Docker Basics
+Before diving into the project implementation, it's important to understand some Docker basics. Docker uses images and containers as its core concepts:
+
+1. **Image**: A lightweight, standalone, and executable software package that includes everything needed to run a piece of software, such as code, runtime, libraries, environment variables, and configuration files.
+
+2. **Container**: An instance of an image that runs as a process on the host operating system. Containers are isolated from each other and provide a consistent runtime environment for applications.
 

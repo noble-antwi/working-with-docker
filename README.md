@@ -1,2 +1,2 @@
-# working-with-docker
-This repository is a chronicle of my study of Docker
+# Building and Deploying a Dockerized User Profile App
+Welcome to my project documentation, where I will guide you through the process of building and deploying a user profile application using Docker. By containerizing each component of the app, we ensure consistency and portability, making it easier to deploy in various environments. This documentation serves as a comprehensive guide for Junior DevOps Engineers, showcasing their skills in Docker and containerization.

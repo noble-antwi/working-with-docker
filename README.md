@@ -15,3 +15,7 @@ Before diving into the project implementation, it's important to understand some
 
 2. **Container**: An instance of an image that runs as a process on the host operating system. Containers are isolated from each other and provide a consistent runtime environment for applications.
 
+## Development Process
+Let's walk through the development process step by step:
+
+1. **Pulling Images**: I started by pulling the necessary Docker images from Docker Hub. This involved pulling the MongoDB image and the MongoDB Express image using the docker pull command.

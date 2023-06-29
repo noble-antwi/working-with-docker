@@ -198,7 +198,34 @@ volumes:
     ```text
     mongo-data: This named volume is of type local, meaning it is stored on the local filesystem of the Docker host.
     ```
+
 This Docker Compose file sets up a MongoDB container (mongodb) and a Mongo Express container (mongo-express), connecting them together. The containers use environment variables for authentication and configuration. Data is persisted using a named volume. With this setup, you can easily start and manage both MongoDB and Mongo Express by running docker-compose up.
+
+The docker compose file itself is run by using the command below:
+
+```docker
+ docker-compose -f -d docker-compose.yaml up  
+```
+
+The command is used to start Docker containers defined in a Docker Compose YAML file in detached mode. Here's a concise explanation of each section:
+
+* **docker-compose:*** This command is used to manage multiple containers defined in a Docker Compose YAML file.
+
+* **-f docker-compose.yaml:** This option specifies the path to the Docker Compose YAML file (docker-compose.yaml) that contains the configuration for the services to be started.
+
+* **-d:** This option stands for "detached mode." It runs the containers in the background, allowing you to continue using the terminal without being attached to the containers' console.
+
+* **up:** This command starts the containers based on the configurations defined in the Docker Compose file.
+
+In summary, the command uses Docker Compose to start the containers defined in the specified YAML file in detached mode, allowing them to run in the background.
+
+To shut down containers run using a dockker compose file, the command below will be used
+
+```docker
+docker-compose -f  docker-compose.yaml down
+
+```
+
 
 
 

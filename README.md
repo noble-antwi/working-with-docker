@@ -193,12 +193,11 @@ volumes:
     mongo-express: This service is based on the mongo-express image, which provides a web-based interface for administering MongoDB. It always restarts if the container stops. It exposes port 8080 and sets environment variables for the admin username, password, and the MongoDB server to connect to. It depends on the mongodb service being up and running. It also uses the mongo-data volume.
     ```
 
-    ```test
-    volumes: This section defines the named volume mongo-data that is used by both services to persist data.
+* **volumes:** This section defines the named volume mongo-data that is used by both services to persist data.
+
+    ```text
+    mongo-data: This named volume is of type local, meaning it is stored on the local filesystem of the Docker host.
     ```
-
-* **mongo-data:** This named volume is of type local, meaning it is stored on the local filesystem of the Docker host.
-
 This Docker Compose file sets up a MongoDB container (mongodb) and a Mongo Express container (mongo-express), connecting them together. The containers use environment variables for authentication and configuration. Data is persisted using a named volume. With this setup, you can easily start and manage both MongoDB and Mongo Express by running docker-compose up.
 
 

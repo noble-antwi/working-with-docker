@@ -177,7 +177,7 @@ volumes:
 
 ```
 
-**Diving Deeper into the Docker Compose Content**
+#### Diving Deeper into the Docker Compose Content
 
 ---
 
@@ -226,9 +226,113 @@ docker-compose -f  docker-compose.yaml down
 
 ```
 
+## Building Docker Images
 
+Building Docker images is a fundamental step in containerization that allows you to create portable and self-contained environments for your applications. The process involves defining a set of instructions in a Dockerfile, which describes the steps to build an image. These instructions typically include specifying a base image, adding dependencies, copying files, and running commands to set up the desired environment. Docker provides a rich set of commands and options in the Dockerfile syntax, allowing you to customize and configure your images according to your application's requirements. Building Docker images provides consistency and reproducibility, as the resulting image can be used to create identical containers across different environments and platforms.
 
+When building Docker images, it's important to consider best practices to optimize the images' size and performance. Some key considerations include using minimal and purpose-specific base images, leveraging caching to speed up subsequent builds, minimizing the number of layers, and cleaning up unnecessary files and dependencies. Additionally, it's crucial to ensure proper security practices by only including necessary files and dependencies, using trusted sources for base images and dependencies, and scanning the images for vulnerabilities. With Docker's robust tooling and documentation, building Docker images becomes a streamlined process, enabling developers to package their applications and dependencies into portable units that can be easily deployed and scaled across various environments.
 
+---
+To prepare for deployment in another environment, I built a Docker image of the current application. A Dockerfile is used to define the image's configuration and dependencies. Here's the content of the Dockerfile:
 
+```docker
+FROM node
 
+ENV MONGO_DB_USERNAME=admin \
+    MONGO_DB_PWD=password
+
+RUN mkdir -p /home/app
+
+COPY ./app /home/app
+
+WORKDIR /home/app
+
+RUN npm install
+
+CMD ["node", "server.js"]
+
+```
+
+**NB: The environmnet varibles can also be defined in the docker-compose file***
+
+This Dockerfile specifies the base image as Node.js, sets environment variables, creates a working directory, copies the app files, installs dependencies, and specifies the command to run the app.
+
+To build the Docker image, I ran the following command
+
+```docker
+docker build -t my-app:1.0 .
+
+```
+
+The -t flag tags the image with a name and version.
+
+![Building the Image of the App](/projects_images/17.%20building%20the%20app.png)
+
+## Private Docker Registry
+
+A private Docker registry is a secure repository for storing and distributing Docker images within your organization. It provides a centralized location to manage and share custom-built Docker images, ensuring privacy and control over your container images. With a private registry, you can securely store sensitive or proprietary images that are not intended for public distribution, protecting your intellectual property and maintaining strict access control.
+
+Setting up a private Docker registry enables you to have complete control over the lifecycle of your Docker images. You can push your locally built images to the registry and pull them from the registry to deploy containers in your infrastructure. This facilitates streamlined collaboration among development teams and ensures consistent and reliable deployments. Additionally, a private registry can be integrated with continuous integration and continuous deployment (CI/CD) pipelines, enabling automated image builds, tests, and deployments. With the ability to manage access permissions and authentication, a private Docker registry provides a secure and efficient solution for storing and sharing container images within your project or organization.
+
+---
+
+To securely store and distribute Docker images, I created a private Docker registry. In this example, I used Amazon Elastic Container Registry (ECR) as the private registry.
+
+Here's an additional section on creating a private Docker registry and pushing the newly built Docker image into it:
+
+### Creating a Private Docker Registry
+To securely store and distribute Docker images, you can set up a private Docker registry. This allows you to have more control over your images and enables sharing within your organization. In this section, we'll use Amazon Elastic Container Registry (ECR) as an example.
+
+![Creating ECR](/projects_images/18..%20creating%20ecr1.png)
+
+1. Create an Amazon ECR repository: Using the AWS Management Console, Inavigated to Amazon ECR and created a repository called ***my-app***. 
+
+![Creating a repo in ECR](/projects_images/19.created_repo.png)
+
+2.Authenticate Docker with ECR: I then Install and configure the AWS Command Line Interface (CLI) on my local machine. To achieve this, I made use of the command
+
+```aws configure.
+aws
+```
+
+I input my details which comprises of AWS Access Key ID, AWS Secret Access Key, Default region name, and Default output format 
+
+In order to authenticate Docker with ECR, i run the command below
+
+```bash
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 831285844664.dkr.ecr.us-east-1.amazonaws.com
+
+```
+![Authenticating Docker with ECR](/projects_images/20%20ecr%20login.png)
+
+3.Tagging the Docker image: 
+
+```bash
+docker tag my-app:1.0 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0
+```
+The command docker tag my-app:1.0 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0 allows me to tag a Docker image with a specific repository and tag name. By tagging the image, I can provide additional context and specify the target repository where I want to store the image.
+
+In this example, I am tagging the image my-app:1.0 with the repository name 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app and the tag 1.0. The repository name follows the format used by Amazon Elastic Container Registry (ECR), which includes my AWS account ID, the ECR domain, and the repository name. The tag name allows me to differentiate and version my images within the repository.
+
+Tagging my Docker image is useful for organizing and managing different versions of my application or service. It enables me to easily reference and deploy specific image versions from the repository, making it easier to track changes and roll back to previous versions if needed.
+![tagging the docker image](/projects_images/21.%20taggging.png)
+
+4.Pushing the Docker image to ECR:
+
+```bash
+docker push 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0   
+```
+The command docker push 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0 is used to push a Docker image to the Amazon Elastic Container Registry (ECR). By pushing the image, I can upload it to the specified repository within my AWS account, making it available for deployment and distribution.
+
+In this case, I am pushing the image with the repository name 831285844664.dkr.ecr.us-east-1.amazonaws.com/my-app and the tag 1.0. The repository name corresponds to the ECR domain and the specific repository where I want to store the image. The tag allows me to specify the version or variant of the image.
+
+By pushing the Docker image to ECR, I can securely store and manage my container images within the AWS ecosystem. This facilitates seamless integration with other AWS services and simplifies the deployment process. Once the image is pushed, I can easily pull it from ECR when needed, ensuring consistency and reliability across different environments and deployments.
+![Pushing Image to ECR](/projects_images/22.%20pushing%20to%20ecr.png)
+
+List of other Build in the ECR
+
+![All other Images in ECR](/projects_images/Other%20Images%20in%20ECRpng)
+
+## Conclusion
 

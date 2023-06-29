@@ -19,3 +19,5 @@ Before diving into the project implementation, it's important to understand some
 Let's walk through the development process step by step:
 
 1. **Pulling Images**: I started by pulling the necessary Docker images from Docker Hub. This involved pulling the MongoDB image and the MongoDB Express image using the docker pull command.
+
+![List of Pulled Images](/projects_images/1.%20listing%20docker%20images%20after%20pulling.png)
